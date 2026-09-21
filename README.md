@@ -20,8 +20,7 @@ Run it locally
 There is no build step. The whole app is one file, index.html.
 
 bash
-git clone https://github.com/YOUR-USERNAME/tailortech.git
-cd tailortech
+git clone (https://abhishek9517482591-alt.github.io/tailortech/)
 python3 -m http.server 8000
 
 Open http://localhost:8000. You can also double-click index.html to open it directly.

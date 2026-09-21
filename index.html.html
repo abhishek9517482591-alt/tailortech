@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TailorTech – Tailoring at your door</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F7; --surface:#FFFFFF; --ink:#14182B; --muted:#565E75; --line:#D5DAE4; --chalk:#E7ECF6;
+  --accent:#22306B; --on-accent:#FFFFFF; --primary:#F2C230; --on-primary:#14182B;
+  --hero:#22306B; --danger:#B42D24; --ok:#1B7346;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1226; --surface:#171D38; --ink:#ECEFF8; --muted:#9BA3BD; --line:#2B3459; --chalk:#1F2748;
+    --accent:#A3B3FF; --on-accent:#0E1226; --hero:#151B3D; --danger:#FF8A80; --ok:#6FD6A0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1226; --surface:#171D38; --ink:#ECEFF8; --muted:#9BA3BD; --line:#2B3459; --chalk:#1F2748;
+  --accent:#A3B3FF; --on-accent:#0E1226; --hero:#151B3D; --danger:#FF8A80; --ok:#6FD6A0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.02em}
+h1{font-size:clamp(2.6rem,6.4vw,4.6rem);font-weight:800}
+h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800}
+h3{font-size:1.15rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hero);color:#fff}
+.top .wrap{display:flex;align-items:center;gap:22px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:800 1.3rem var(--display);letter-spacing:-.02em}
+.brand svg{width:30px;height:30px}
+.nav{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav a{color:#DCE2FA;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:500;font-size:.95rem}
+.nav a:hover{background:rgba(255,255,255,.1)}
+.nav a.on{color:#fff;box-shadow:inset 0 -2px 0 var(--primary);border-radius:0}
+.nav .btn{margin-left:8px}
+.tabbar{display:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 20px;font-weight:600;text-decoration:none;background:var(--primary);color:var(--on-primary);transition:transform .12s, filter .12s}
+.btn:hover{filter:brightness(.96)}
+.btn:active{transform:translateY(1px)}
+.btn.sm{padding:8px 14px;font-size:.92rem}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.btn.onhero.ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)}
+.btn.danger{background:transparent;color:var(--danger);box-shadow:inset 0 0 0 1.5px var(--danger)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* hero */
+.hero{background:var(--hero);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-top:64px;padding-bottom:84px}
+.hero p.lead{font-size:1.2rem;color:#DCE2FA;max-width:34ch;margin-top:20px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero ul.facts{list-style:none;padding:0;margin:30px 0 0;display:flex;flex-wrap:wrap;gap:8px 22px;color:#C4CCEE;font-size:.95rem}
+.hero ul.facts li{display:flex;gap:8px;align-items:center}
+.hero ul.facts svg{width:16px;height:16px;stroke:var(--primary)}
+.tape{position:absolute;left:0;right:0;bottom:0;height:40px;background:var(--primary);color:#14182B;overflow:hidden;
+  background-image:linear-gradient(90deg,#14182B 1px,transparent 1px),linear-gradient(90deg,#14182B 1.5px,transparent 1.5px);
+  background-size:10px 8px,50px 15px;background-position:0 100%,0 100%;background-repeat:repeat-x}
+.tape div{display:flex;font:700 .72rem var(--display);padding-top:3px}
+.tape span{flex:0 0 100px;padding-left:4px}
+.ticket{background:var(--surface);color:var(--ink);border-radius:16px;padding:22px;box-shadow:0 20px 50px rgba(5,8,25,.35);transform:rotate(1.2deg)}
+.ticket .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;gap:10px}
+.ticket .hd b{font:700 1.05rem var(--display)}
+.ticket .tag{font-size:.78rem;color:var(--muted)}
+.ticket .tl li{padding-bottom:14px}
+.ticket .tl .t{font-size:.95rem}
+.ticket .tl .dot{animation:fill .35s both;animation-delay:calc(var(--i)*.28s + .3s)}
+@keyframes fill{from{background:var(--surface);border-color:var(--line);color:transparent}}
+
+/* sections */
+section.blk{padding:84px 0}
+.sec-head{max-width:640px;margin-bottom:38px}
+.sec-head p{margin-top:12px;color:var(--muted);font-size:1.08rem}
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.how .st{position:relative;padding:22px 18px 22px 0}
+.how .st::before{content:"";position:absolute;top:34px;left:34px;right:0;border-top:2px dashed var(--line)}
+.how .st:nth-child(4)::before,.how .st:last-child::before{display:none}
+.how .n{position:relative;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 .8rem var(--display);display:grid;place-items:center;margin-bottom:12px}
+.how .st h3{margin-bottom:6px}
+.how .st p{color:var(--muted);font-size:.95rem}
+.how .st.cta{display:flex;align-items:flex-start;padding-top:20px}
+
+.duo{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:start}
+.rate{list-style:none;margin:0;padding:0;background:var(--surface);border-radius:14px;border:1px solid var(--line)}
+.rate li{border-bottom:1px solid var(--line)}
+.rate li:last-child{border-bottom:0}
+.rate button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:baseline;width:100%;padding:16px 20px;cursor:pointer}
+.rate button:hover{background:var(--chalk)}
+.rate button:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.rate .nm{font:700 1.08rem var(--display)}
+.rate .lead-dots{border-bottom:2px dotted var(--line);align-self:end;margin-bottom:6px;min-width:20px}
+.rate .pr{font-weight:600}
+.rate .dy{color:var(--muted);font-size:.88rem;min-width:56px;text-align:right}
+.rate .ds{grid-column:1/-1;color:var(--muted);font-size:.9rem;margin-top:-6px}
+.aibox{background:var(--accent);color:var(--on-accent);border-radius:16px;padding:28px}
+.aibox h3{font-size:1.5rem;font-weight:800}
+.aibox p{margin:12px 0 20px;opacity:.9}
+.aibox .q{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.aibox .q span{background:rgba(255,255,255,.12);border-radius:999px;padding:8px 14px;font-size:.92rem}
+:root[data-theme="dark"] .aibox .q span,:root:not([data-theme="light"]) .aibox .q span{background:rgba(14,18,38,.12)}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+.faq summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--accent)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 20px 18px;color:var(--muted)}
+.band{background:var(--chalk);border-radius:20px;padding:44px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap}
+footer{padding:30px 0 40px;color:var(--muted);font-size:.9rem}
+
+/* pages */
+.page{padding:40px 0 80px}
+.page > .wrap > h1{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:8px}
+.page .sub{color:var(--muted);margin-bottom:30px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.grid2{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
+.sticky{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px)}
+fieldset{border:0;padding:0;margin:0 0 30px}
+legend{font:700 1.15rem var(--display);padding:0;margin-bottom:12px}
+label.f{display:block;font-weight:600;font-size:.92rem;margin-bottom:14px}
+label.f>span.h{font-weight:400;color:var(--muted)}
+input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{width:100%;margin-top:6px;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:3px solid color-mix(in srgb,var(--accent) 35%,transparent);border-color:var(--accent)}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.err{display:block;color:var(--danger);font-weight:500;font-size:.85rem;min-height:0;margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:500}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.garments{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.g{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;text-align:left}
+.g b{display:block;font-family:var(--display)}
+.g small{color:var(--muted)}
+.g:hover{border-color:var(--accent)}
+.g[aria-pressed=true]{border-color:var(--accent);background:var(--chalk);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.radio{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer;background:var(--surface)}
+.radio input{margin-top:4px;accent-color:var(--accent)}
+.radio:has(input:checked){border-color:var(--accent);background:var(--chalk)}
+.sum h3{margin-bottom:14px}
+.sum dl{margin:0;display:grid;gap:12px}
+.sum dt{font-size:.82rem;color:var(--muted)}
+.sum dd{margin:0;font-weight:600}
+.sum .price{font:800 1.7rem var(--display)}
+.sum hr{border:0;border-top:1.5px dashed var(--line);margin:16px 0}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 26px 42px;min-height:50px}
+.tl li::before{content:"";position:absolute;left:11px;top:26px;bottom:0;border-left:2px dashed var(--line)}
+.tl li:last-child::before{display:none}
+.tl li.done::before{border-left:2px solid var(--accent)}
+.tl .dot{position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;color:transparent}
+.tl .dot svg{width:13px;height:13px;stroke:currentColor;stroke-width:3;fill:none}
+.tl .done .dot{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tl .now .dot{background:var(--primary);border-color:var(--primary);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,194,48,.55)}70%{box-shadow:0 0 0 10px rgba(242,194,48,0)}100%{box-shadow:0 0 0 0 rgba(242,194,48,0)}}
+.tl .t{font-weight:600;line-height:1.3}
+.tl .w{font-size:.86rem;color:var(--muted)}
+.tl .d{font-size:.92rem;margin-top:4px}
+.tl li:not(.done):not(.now) .t{color:var(--muted);font-weight:500}
+.badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600;background:var(--chalk);color:var(--accent)}
+.badge.now{background:var(--primary);color:var(--on-primary)}
+.badge.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.badge.bad{background:color-mix(in srgb,var(--danger) 16%,transparent);color:var(--danger)}
+.tabs{display:flex;gap:6px;margin-bottom:20px}
+.ocard{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:12px}
+.ocard:hover{border-color:var(--accent)}
+.ocard .r1{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.ocard h3{font-size:1.25rem}
+.seg{display:flex;gap:4px;margin:16px 0 8px}
+.seg i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.seg i.f{background:var(--accent)}
+.seg i.c{background:var(--primary)}
+.empty{text-align:center;padding:50px 20px;border:2px dashed var(--line);border-radius:16px}
+.empty h3{margin-bottom:8px;font-size:1.4rem}
+.empty .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.dl{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 24px;margin:0}
+.dl dt{font-size:.82rem;color:var(--muted)}
+.dl dd{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
+.dl .full{grid-column:1/-1}
+.stack{display:grid;gap:20px}
+.demo{border:1.5px dashed var(--line);border-radius:12px;padding:14px;font-size:.88rem;color:var(--muted)}
+.demo .btn{margin-top:10px}
+.oid{font:800 clamp(2.2rem,7vw,3.4rem) var(--display);letter-spacing:.02em;color:var(--accent)}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;margin-bottom:18px}
+.tick svg{width:32px;height:32px;stroke:currentColor;stroke-width:3;fill:none;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .6s .15s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.addr{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+.addr:last-of-type{border-bottom:0}
+.addr .acts{display:flex;gap:6px;flex-wrap:wrap}
+
+/* chat */
+.chatbox{display:flex;flex-direction:column;height:min(640px,72vh);padding:0;overflow:hidden}
+.msgs{flex:1;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.bub{max-width:88%;padding:12px 16px;border-radius:16px;line-height:1.5}
+.bub.a{background:var(--chalk);border-bottom-left-radius:4px;align-self:flex-start}
+.bub.u{background:var(--accent);color:var(--on-accent);border-bottom-right-radius:4px;align-self:flex-end}
+.bub ul{margin:6px 0;padding-left:20px}
+.bub p+p,.bub p+ul,.bub ul+p{margin-top:8px}
+.bub .note{font-size:.8rem;color:var(--muted);margin-top:8px}
+.bub .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:bl 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bl{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.compose{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line);background:var(--surface)}
+.compose input{margin:0;flex:1}
+.quick{display:flex;gap:8px;flex-wrap:wrap;padding:0 20px 14px}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:50;font-weight:500;max-width:90vw}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:900px){
+  .hero .wrap,.duo,.grid2{grid-template-columns:1fr}
+  .hero .wrap{padding-top:44px;padding-bottom:70px;gap:34px}
+  .ticket{transform:none}
+  .how{grid-template-columns:repeat(2,1fr)}
+  .how .st::before{display:none}
+  .garments{grid-template-columns:repeat(2,1fr)}
+  .sticky{position:static}
+  section.blk{padding:56px 0}
+}
+@media (max-width:760px){
+  .nav{display:none}
+  .top .wrap{justify-content:space-between}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(env(safe-area-inset-bottom,0px) + 6px)}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;text-decoration:none;color:var(--muted);padding:4px 0;font-weight:500}
+  .tabbar a.on{color:var(--accent)}
+  .tabbar svg{width:22px;height:22px}
+  body{padding-bottom:70px}
+  .row,.row3,.dl{grid-template-columns:1fr}
+  .rate button{grid-template-columns:1fr auto}
+  .rate .lead-dots,.rate .dy{display:none}
+  .band{padding:28px}
+}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#/" aria-label="TailorTech home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#F2C230"/><path d="M7 23 L25 9" stroke="#14182B" stroke-width="2.4" stroke-dasharray="4 3.4" stroke-linecap="round"/><circle cx="9" cy="9" r="2.4" fill="none" stroke="#14182B" stroke-width="2"/></svg>
+      TailorTech
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#/" data-nav="home" data-scroll="how">How it works</a>
+      <a href="#/stylist" data-nav="stylist">Style assistant</a>
+      <a href="#/dashboard" data-nav="dashboard">My orders</a>
+      <a href="#/profile" data-nav="profile">Profile</a>
+      <a class="btn sm" href="#/book">Book a visit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<nav class="tabbar" aria-label="Main">
+  <a href="#/" data-nav="home"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="#/book" data-nav="book"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Book</a>
+  <a href="#/dashboard" data-nav="dashboard"><svg class="i" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Orders</a>
+  <a href="#/stylist" data-nav="stylist"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Stylist</a>
+  <a href="#/profile" data-nav="profile"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</a>
+</nav>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------- data ---------- */
+const GARMENTS=[
+ {id:'shirt',name:'Shirt',price:899,days:5,note:'Formal or casual, cut to your measurements'},
+ {id:'trousers',name:'Trousers',price:999,days:5,note:'Straight, tapered or pleated'},
+ {id:'kurta',name:'Kurta set',price:1499,days:6,note:'Kurta with pyjama or churidar'},
+ {id:'blazer',name:'Blazer or suit',price:5999,days:10,note:'Jacket alone, or with matching trousers'},
+ {id:'sherwani',name:'Sherwani',price:8999,days:14,note:'Wedding and festive wear'},
+ {id:'blouse',name:'Blouse',price:699,days:4,note:'Saree blouses, lined or padded'},
+ {id:'salwar',name:'Salwar suit',price:1299,days:6,note:'Kameez, salwar and dupatta finishing'},
+ {id:'alter',name:'Alteration',price:199,days:2,note:'Hem, taper, resize or repair'}];
+const STAGES=[
+ {k:'Booking confirmed',d:'We have your request and are assigning an executive.'},
+ {k:'Executive visits home',d:'Our executive arrives during your pickup window.'},
+ {k:'Measurements taken',d:'Your measurements are saved for future orders.'},
+ {k:'Fabric collected',d:'Your fabric is logged and tagged in front of you.'},
+ {k:'Sent to tailor',d:'A tailor has your measurements and fabric.'},
+ {k:'Stitched',d:'Stitching is done and the garment is being quality checked.'},
+ {k:'Delivered',d:'Delivered to your door with a fit check.'}];
+const SLOTS=['9–11 am','11 am–1 pm','2–4 pm','4–6 pm','6–8 pm'];
+const EXECS=['Ravi Kumar','Neha Sharma','Imran Ali','Priya Nair','Arjun Mehta'];
+const FAQ=[
+ ['Do I pay when I book?','No. Booking is free and the home visit is free. You pay the stitching charge when the garment is delivered.'],
+ ['What if I do not have fabric?','Choose "Help me choose" while booking. Your executive brings swatches to the visit and you can decide at home.'],
+ ['How long does it take?','From 2 days for an alteration to 14 days for a sherwani, counted from your fabric collection. Your order page shows the expected delivery date.'],
+ ['Are my measurements saved?','Yes. They are stored against your profile, so repeat orders do not need another visit.'],
+ ['Can I cancel?','You can cancel any time before your executive collects the fabric.']];
+
+/* ---------- storage (private to this browser) ---------- */
+const mem={};
+function load(k,def){try{const v=localStorage.getItem(k);if(v)return JSON.parse(v)}catch(e){} return k in mem?mem[k]:def}
+function save(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+const state={
+  profile:load('tt_profile',{name:'',phone:'',email:'',addresses:[]}),
+  orders:load('tt_orders',[]),
+  draft:{garment:'',slot:'',fabric:'have',notes:'',name:'',phone:'',line:'',city:'',pin:'',date:'',saveAddr:true},
+  tab:'active', chat:[], busy:false, aiCtrl:null
+};
+const persist=()=>{save('tt_profile',state.profile);save('tt_orders',state.orders)};
+
+/* ---------- helpers ---------- */
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+const gById=id=>GARMENTS.find(g=>g.id===id);
+const isoDay=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const fmtDay=s=>new Date(s+'T00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+function fmtWhen(iso){const d=new Date(iso),n=new Date();const t=d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+  if(d.toDateString()===n.toDateString())return 'Today, '+t;
+  if(d.toDateString()===addDays(n,-1).toDateString())return 'Yesterday, '+t;
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+', '+t}
+const ICON={
+ check:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',
+ pin:'<svg class="i" viewBox="0 0 24 24"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>'};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600)}
+const go=h=>{location.hash=h};
+function newId(){let id;do{id='TT-'+(100000+Math.floor(Math.random()*900000))}while(state.orders.some(o=>o.id===id));return id}
+const execFor=id=>EXECS[[...id].reduce((a,c)=>a+c.charCodeAt(0),0)%EXECS.length];
+
+function createOrder(f){
+  const g=gById(f.garment), now=new Date().toISOString();
+  const o={id:newId(),created:now,stage:0,times:[now,null,null,null,null,null,null],cancelled:false,
+    name:f.name,phone:f.phone,address:`${f.line}, ${f.city} ${f.pin}`,garment:f.garment,date:f.date,slot:f.slot,
+    fabric:f.fabric,notes:f.notes,price:g.price,eta:isoDay(addDays(new Date(f.date+'T00:00'),g.days))};
+  state.orders.unshift(o);persist();return o}
+
+/* ---------- views ---------- */
+function tlHTML(o,compact){
+  return `<ol class="tl">`+STAGES.map((s,i)=>{
+    const done=o.cancelled?i<=o.stage&&i<o.stage:(i<o.stage||o.stage===6);
+    const now=!o.cancelled&&!done&&i===o.stage;
+    const when=o.times[i]?fmtWhen(o.times[i]):(i===1?`Scheduled ${fmtDay(o.date)}, ${o.slot}`:i===6?`Expected ${fmtDay(o.eta)}`:'Pending');
+    return `<li class="${done?'done':now?'now':''}" ${now?'aria-current="step"':''}><span class="dot">${ICON.check}</span>
+      <div class="t">${s.k}</div>${compact?'':`<div class="w">${when}</div>${now?`<div class="d">${s.d}</div>`:''}`}</li>`}).join('')+`</ol>`}
+
+function viewHome(){
+  return `
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Your tailor, at your door.</h1>
+        <p class="lead">Book a visit. We measure you at home, collect your fabric, and deliver the stitched garment with live tracking.</p>
+        <div class="ctas">
+          <a class="btn" href="#/book">Book a home visit</a>
+          <a class="btn ghost onhero" href="#/" data-scroll="how">See how it works</a>
+        </div>
+        <ul class="facts">
+          <li>${ICON.check.replace('<svg','<svg class="i"')}Free home visit</li>
+          <li>${ICON.check.replace('<svg','<svg class="i"')}Pay on delivery</li>
+          <li>${ICON.check.replace('<svg','<svg class="i"')}Ready in 2–14 days</li>
+        </ul>
+      </div>
+      <div class="ticket" aria-label="Sample order tracking">
+        <div class="hd"><b>Kurta set</b><span class="tag">Sample order TT-482913</span></div>
+        <ol class="tl">${STAGES.map((s,i)=>`<li class="${i<4?'done':i===4?'now':''}"><span class="dot" style="--i:${i}">${ICON.check}</span><div class="t">${s.k}</div></li>`).join('')}</ol>
+      </div>
+    </div>
+    <div class="tape" aria-hidden="true"><div id="tapeNums"></div></div>
+  </section>
+
+  <section class="blk" id="how"><div class="wrap">
+    <div class="sec-head"><h2>Seven steps from booking to your door</h2><p>You are never chasing anyone for an update. Every step shows up on your order page.</p></div>
+    <div class="how">
+      ${[['Book service','Pick a garment and a time slot. It takes about a minute.'],
+         ['Executive visits home','A verified executive arrives in your chosen window.'],
+         ['Measurements taken','Measured at home and saved for every future order.'],
+         ['Fabric collected','Hand over your fabric. We log and tag it with you present.'],
+         ['Sent to tailor','Matched with a tailor who specialises in your garment.'],
+         ['Stitched','Cut, stitched, pressed and quality checked.'],
+         ['Delivered','Back at your door with a fit check.']]
+        .map((s,i)=>`<div class="st"><div class="n">${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join('')}
+      <div class="st cta"><a class="btn" href="#/book">Start with step 1</a></div>
+    </div>
+  </div></section>
+
+  <section class="blk" style="padding-top:0" id="rates"><div class="wrap duo">
+    <div>
+      <div class="sec-head" style="margin-bottom:24px"><h2>Rate card</h2><p>Starting prices for stitching only. Your executive confirms the final quote after measuring.</p></div>
+      <ul class="rate">${GARMENTS.map(g=>`<li><button type="button" data-act="book-garment" data-v="${g.id}">
+        <span class="nm">${g.name}</span><span class="lead-dots"></span><span class="pr">from ${inr(g.price)}</span><span class="dy">${g.days} days</span>
+        <span class="ds">${g.note}</span></button></li>`).join('')}</ul>
+    </div>
+    <div class="aibox">
+      <h3>Not sure what to get stitched?</h3>
+      <p>Tell our style assistant the occasion and your budget. It suggests a garment, fabric and fit you can book in one tap.</p>
+      <div class="q"><span>What should I wear to a cousin's wedding in December?</span><span>Two work shirts under ₹2,000</span></div>
+      <a class="btn" href="#/stylist">Ask the style assistant</a>
+    </div>
+  </div></section>
+
+  <section class="blk" style="padding-top:0"><div class="wrap" style="max-width:780px">
+    <div class="sec-head"><h2>Questions we hear a lot</h2></div>
+    <div class="faq">${FAQ.map(q=>`<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join('')}</div>
+  </div></section>
+
+  <section style="padding-bottom:60px"><div class="wrap"><div class="band">
+    <div><h2>Ready when you are</h2><p class="muted" style="margin-top:8px">Pick a slot and we will be there.</p></div>
+    <a class="btn" href="#/book">Book a home visit</a>
+  </div></div></section>
+  <footer><div class="wrap">TailorTech is a demo MVP. Orders are stored in this browser only.</div></footer>`}
+
+function viewBook(){
+  const d=state.draft,p=state.profile;
+  if(!d.name)d.name=p.name; if(!d.phone)d.phone=p.phone;
+  if(!d.line&&p.addresses.length){const a=p.addresses.find(a=>a.def)||p.addresses[0];d.line=a.line;d.city=a.city;d.pin=a.pin}
+  const min=isoDay(addDays(new Date(),1));
+  return `<div class="page"><div class="wrap">
+    <h1>Book a home visit</h1><p class="sub">Free visit, no advance payment. You will get an order ID straight away.</p>
+    <div class="grid2"><div class="card" id="bookForm">
+      <fieldset><legend>What are we making?</legend>
+        <div class="garments" role="group" aria-label="Garment type">${GARMENTS.map(g=>`<button type="button" class="g" data-act="pick-garment" data-v="${g.id}" aria-pressed="${d.garment===g.id}"><b>${g.name}</b><small>from ${inr(g.price)}</small></button>`).join('')}</div>
+        <span class="err" data-err="garment"></span>
+      </fieldset>
+      <fieldset><legend>When should we visit?</legend>
+        <label class="f">Pickup date<input type="date" id="f-date" min="${min}" value="${esc(d.date)}"><span class="err" data-err="date"></span></label>
+        <div class="chips" role="group" aria-label="Time slot">${SLOTS.map(s=>`<button type="button" class="chip" data-act="pick-slot" data-v="${s}" aria-pressed="${d.slot===s}">${s}</button>`).join('')}</div>
+        <span class="err" data-err="slot"></span>
+      </fieldset>
+      <fieldset><legend>Where should we come?</legend>
+        ${p.addresses.length?`<label class="f">Use a saved address<select id="f-saved"><option value="">Choose…</option>${p.addresses.map(a=>`<option value="${a.id}">${esc(a.label)}: ${esc(a.line)}, ${esc(a.city)}</option>`).join('')}</select></label>`:''}
+        <label class="f">Address<input type="text" id="f-line" placeholder="Flat, building, street" value="${esc(d.line)}"><span class="err" data-err="line"></span></label>
+        <div class="row"><label class="f">City<input type="text" id="f-city" value="${esc(d.city)}"><span class="err" data-err="city"></span></label>
+        <label class="f">Pincode<input type="text" id="f-pin" inputmode="numeric" maxlength="6" value="${esc(d.pin)}"><span class="err" data-err="pin"></span></label></div>
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="f-save" ${d.saveAddr?'checked':''} style="accent-color:var(--accent)"> Save this address to my profile</label>
+      </fieldset>
+      <fieldset><legend>Fabric</legend>
+        <label class="radio"><input type="radio" name="fabric" value="have" ${d.fabric==='have'?'checked':''}><span><b>I have fabric</b><br><span class="muted">The executive collects it at the visit.</span></span></label>
+        <label class="radio"><input type="radio" name="fabric" value="help" ${d.fabric==='help'?'checked':''}><span><b>Help me choose</b><br><span class="muted">The executive brings swatches to the visit.</span></span></label>
+      </fieldset>
+      <fieldset><legend>Your details</legend>
+        <div class="row"><label class="f">Full name<input type="text" id="f-name" autocomplete="name" value="${esc(d.name)}"><span class="err" data-err="name"></span></label>
+        <label class="f">Mobile number<input type="tel" id="f-phone" autocomplete="tel" placeholder="10-digit number" value="${esc(d.phone)}"><span class="err" data-err="phone"></span></label></div>
+        <label class="f">Notes <span class="h">(optional)</span><textarea id="f-notes" placeholder="Fit preferences, collar style, deadline">${esc(d.notes)}</textarea></label>
+        <a href="#/stylist">Need ideas? Ask the style assistant</a>
+      </fieldset>
+      <button type="button" class="btn" data-act="submit-booking" style="width:100%">Confirm booking</button>
+    </div>
+    <aside class="card sum sticky" aria-label="Booking summary"><h3>Your booking</h3><div id="sum"></div></aside>
+    </div></div></div>`}
+
+function updateSummary(){
+  const d=state.draft,g=gById(d.garment),el=$('#sum');if(!el)return;
+  const eta=g&&d.date?isoDay(addDays(new Date(d.date+'T00:00'),g.days)):'';
+  el.innerHTML=`<dl>
+    <div><dt>Garment</dt><dd>${g?g.name:'Not chosen yet'}</dd></div>
+    <div><dt>Visit</dt><dd>${d.date?fmtDay(d.date):'Pick a date'}${d.slot?', '+d.slot:''}</dd></div>
+    <div><dt>Expected delivery</dt><dd>${eta?fmtDay(eta):'Shown once you choose'}</dd></div></dl><hr>
+    <dt class="muted" style="font-size:.82rem">Estimated stitching charge</dt>
+    <div class="price">${g?'from '+inr(g.price):'–'}</div>
+    <p class="muted" style="font-size:.85rem;margin-top:6px">Pay on delivery. Final quote after measurements.</p>`}
+
+function readDraft(){
+  const d=state.draft,v=id=>($('#'+id)||{}).value||'';
+  d.date=v('f-date');d.line=v('f-line');d.city=v('f-city');d.pin=v('f-pin');d.name=v('f-name');d.phone=v('f-phone');d.notes=v('f-notes');
+  const s=$('#f-save');if(s)d.saveAddr=s.checked;
+  const r=$('input[name=fabric]:checked');if(r)d.fabric=r.value}
+
+function submitBooking(){
+  readDraft();const d=state.draft,errs={};
+  if(!d.garment)errs.garment='Choose a garment.';
+  if(!d.date)errs.date='Pick a pickup date.';
+  if(!d.slot)errs.slot='Choose a time slot.';
+  if(d.line.trim().length<5)errs.line='Enter your full address.';
+  if(!d.city.trim())errs.city='Enter your city.';
+  if(!/^\d{6}$/.test(d.pin.trim()))errs.pin='Enter a 6-digit pincode.';
+  if(d.name.trim().length<2)errs.name='Enter your name.';
+  const ph=d.phone.replace(/[\s\-]|^\+91/g,'');
+  if(!/^[6-9]\d{9}$/.test(ph))errs.phone='Enter a valid 10-digit mobile number.';
+  $$('[data-err]').forEach(e=>e.textContent=errs[e.dataset.err]||'');
+  const first=Object.keys(errs)[0];
+  if(first){const t=$(`[data-err=${first}]`);t&&t.scrollIntoView({block:'center',behavior:'smooth'});toast('Please fix the highlighted fields.');return}
+  const o=createOrder({...d,phone:ph,name:d.name.trim(),line:d.line.trim(),city:d.city.trim(),pin:d.pin.trim()});
+  const p=state.profile;
+  if(!p.name)p.name=o.name; if(!p.phone)p.phone=ph;
+  if(d.saveAddr&&!p.addresses.some(a=>a.line===o.address.split(',')[0]&&a.pin===d.pin.trim()))
+    p.addresses.push({id:'a'+Date.now(),label:p.addresses.length?'Other':'Home',line:d.line.trim(),city:d.city.trim(),pin:d.pin.trim(),def:!p.addresses.length});
+  persist();
+  state.draft={garment:'',slot:'',fabric:'have',notes:'',name:'',phone:'',line:'',city:'',pin:'',date:'',saveAddr:true};
+  go('#/confirmed/'+o.id)}
+
+function viewConfirmed(id){
+  const o=state.orders.find(x=>x.id===id);if(!o)return notFound();const g=gById(o.garment);
+  return `<div class="page"><div class="wrap" style="max-width:760px">
+    <div class="tick">${ICON.check}</div>
+    <h1>Booking confirmed</h1><p class="sub">Your executive will visit on ${fmtDay(o.date)}, ${o.slot}.</p>
+    <div class="card" style="margin-bottom:20px">
+      <div class="muted" style="font-size:.85rem">Order ID</div>
+      <div class="oid">${o.id}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px"><button class="btn ghost sm" data-act="copy" data-v="${o.id}">Copy ID</button>
+      <a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent('My TailorTech order '+o.id+' – '+g.name+', visit '+fmtDay(o.date)+' '+o.slot)}">Share on WhatsApp</a></div>
+      <dl class="dl">
+        <div><dt>Garment</dt><dd>${g.name}</dd></div><div><dt>Expected delivery</dt><dd>${fmtDay(o.eta)}</dd></div>
+        <div><dt>Visit</dt><dd>${fmtDay(o.date)}, ${o.slot}</dd></div><div><dt>Fabric</dt><dd>${o.fabric==='have'?'Customer provides':'Executive brings swatches'}</dd></div>
+        <div class="full"><dt>Address</dt><dd>${esc(o.address)}</dd></div>
+        <div><dt>Name</dt><dd>${esc(o.name)}</dd></div><div><dt>Mobile</dt><dd>${esc(o.phone)}</dd></div>
+        ${o.notes?`<div class="full"><dt>Notes</dt><dd>${esc(o.notes)}</dd></div>`:''}
+      </dl></div>
+    <div class="card"><h3 style="margin-bottom:16px">What happens next</h3>${tlHTML(o)}</div>
+    <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap"><a class="btn" href="#/order/${o.id}">Track this order</a><a class="btn ghost" href="#/">Back to home</a></div>
+  </div></div>`}
+
+function orderCard(o){
+  const g=gById(o.garment);
+  const fill=STAGES.map((_,i)=>`<i class="${o.cancelled?'':(i<o.stage||o.stage===6)?'f':i===o.stage?'c':''}"></i>`).join('');
+  const badge=o.cancelled?'<span class="badge bad">Cancelled</span>':o.stage===6?'<span class="badge ok">Delivered</span>':`<span class="badge now">${STAGES[o.stage].k}</span>`;
+  return `<a class="ocard" href="#/order/${o.id}"><div class="r1"><div><h3>${g.name}</h3><div class="muted" style="font-size:.9rem">${o.id}</div></div>${badge}</div>
+    <div class="seg" aria-hidden="true">${fill}</div>
+    <div class="muted" style="font-size:.9rem">${o.cancelled?'Order cancelled':o.stage===6?'Delivered '+fmtWhen(o.times[6]):'Expected delivery '+fmtDay(o.eta)}</div></a>`}
+
+function viewDashboard(){
+  const act=state.orders.filter(o=>!o.cancelled&&o.stage<6),past=state.orders.filter(o=>o.cancelled||o.stage===6);
+  const list=state.tab==='active'?act:past;
+  return `<div class="page"><div class="wrap" style="max-width:760px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:24px"><div><h1 style="margin-bottom:6px">My orders</h1><p class="muted">${state.profile.name?'Hi '+esc(state.profile.name.split(' ')[0])+'. ':''}Track every order from visit to delivery.</p></div><a class="btn" href="#/book">New booking</a></div>
+    <div class="tabs"><button class="chip" data-act="tab" data-v="active" aria-pressed="${state.tab==='active'}">Active (${act.length})</button><button class="chip" data-act="tab" data-v="past" aria-pressed="${state.tab==='past'}">Past (${past.length})</button></div>
+    ${list.length?list.map(orderCard).join(''):`<div class="empty"><h3>${state.tab==='active'?'No active orders':'No past orders yet'}</h3><p class="muted">${state.orders.length?'':'Book a home visit to see your order tracked here.'}</p>
+      <div class="btns"><a class="btn" href="#/book">Book a home visit</a>${state.orders.length?'':'<button class="btn ghost" data-act="demo-order">Add a sample order</button>'}</div></div>`}
+  </div></div>`}
+
+function viewOrder(id){
+  const o=state.orders.find(x=>x.id===id);if(!o)return notFound();const g=gById(o.garment);
+  const badge=o.cancelled?'<span class="badge bad">Cancelled</span>':o.stage===6?'<span class="badge ok">Delivered</span>':`<span class="badge now">${STAGES[o.stage].k}</span>`;
+  return `<div class="page"><div class="wrap">
+    <a href="#/dashboard" style="text-decoration:none">← My orders</a>
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin:14px 0 26px"><div><h1 style="margin-bottom:6px">${g.name}</h1><div class="muted">Order ${o.id}, placed ${fmtWhen(o.created)}</div></div>${badge}</div>
+    ${o.cancelled?'<div class="card" style="margin-bottom:20px;border-color:var(--danger)"><b>This order was cancelled.</b> <span class="muted">You can book again any time.</span></div>':''}
+    <div class="grid2" style="grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card"><h3 style="margin-bottom:20px">Order progress</h3>${tlHTML(o)}
+        ${!o.cancelled&&o.stage<6?`<p class="muted" style="font-size:.92rem;margin-top:-6px">Expected delivery <b style="color:var(--ink)">${fmtDay(o.eta)}</b></p>`:''}</div>
+      <div class="stack">
+        <div class="card"><h3 style="margin-bottom:16px">Details</h3><dl class="dl">
+          <div><dt>Garment</dt><dd>${g.name}</dd></div><div><dt>Stitching estimate</dt><dd>from ${inr(o.price)}</dd></div>
+          <div><dt>Visit</dt><dd>${fmtDay(o.date)}, ${o.slot}</dd></div><div><dt>Fabric</dt><dd>${o.fabric==='have'?'Customer provides':'Executive brings swatches'}</dd></div>
+          <div class="full"><dt>Address</dt><dd>${esc(o.address)}</dd></div>
+          <div><dt>Name</dt><dd>${esc(o.name)}</dd></div><div><dt>Mobile</dt><dd>${esc(o.phone)}</dd></div>
+          <div class="full"><dt>Notes</dt><dd>${o.notes?esc(o.notes):'None'}</dd></div>
+          <div class="full"><dt>Your executive</dt><dd>${execFor(o.id)}</dd></div></dl></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn ghost" data-act="reorder" data-v="${o.id}">Book this again</button>
+          ${!o.cancelled&&o.stage<3?`<button class="btn danger" data-act="cancel" data-v="${o.id}">Cancel order</button>`:''}</div>
+        ${!o.cancelled&&o.stage<6?`<div class="demo"><b style="color:var(--ink)">Demo control</b><br>In production, staff and tailors update these steps. Use this to preview the tracking experience.<br><button class="btn sm ghost" data-act="advance" data-v="${o.id}">Move to next step</button></div>`:''}
+      </div></div></div></div>`}
+
+function viewProfile(){
+  const p=state.profile;
+  return `<div class="page"><div class="wrap" style="max-width:760px">
+    <h1>Profile</h1><p class="sub">Saved details make your next booking a single tap.</p>
+    <div class="card" style="margin-bottom:22px"><h3 style="margin-bottom:16px">Your details</h3>
+      <div class="row"><label class="f">Full name<input type="text" id="p-name" value="${esc(p.name)}"></label>
+      <label class="f">Mobile number<input type="tel" id="p-phone" value="${esc(p.phone)}"><span class="err" data-err="p-phone"></span></label></div>
+      <label class="f">Email <span class="h">(optional)</span><input type="email" id="p-email" value="${esc(p.email)}"></label>
+      <button class="btn" data-act="save-profile">Save changes</button></div>
+    <div class="card"><h3 style="margin-bottom:6px">Saved addresses</h3>
+      ${p.addresses.length?p.addresses.map((a,i)=>`<div class="addr"><div><b>${esc(a.label)}</b> ${a.def?'<span class="badge">Default</span>':''}<div class="muted">${esc(a.line)}, ${esc(a.city)} ${esc(a.pin)}</div></div>
+        <div class="acts">${a.def?'':`<button class="btn ghost sm" data-act="def-addr" data-v="${i}">Make default</button>`}<button class="btn danger sm" data-act="del-addr" data-v="${i}">Remove</button></div></div>`).join(''):'<p class="muted" style="margin:10px 0">No saved addresses yet.</p>'}
+      <h3 style="margin:22px 0 12px;font-size:1rem">Add an address</h3>
+      <div class="chips" style="margin-bottom:14px" id="a-label">${['Home','Work','Other'].map((l,i)=>`<button type="button" class="chip" data-act="a-label" data-v="${l}" aria-pressed="${i===0}">${l}</button>`).join('')}</div>
+      <label class="f">Address<input type="text" id="a-line" placeholder="Flat, building, street"></label>
+      <div class="row"><label class="f">City<input type="text" id="a-city"></label><label class="f">Pincode<input type="text" id="a-pin" inputmode="numeric" maxlength="6"></label></div>
+      <span class="err" data-err="addr"></span>
+      <button class="btn ghost" data-act="add-addr">Add address</button></div>
+  </div></div>`}
+
+/* ---------- AI style assistant ---------- */
+const AI_INSTRUCTIONS=`You are the style assistant inside TailorTech, an on-demand tailoring service in India where an executive visits the customer's home, takes measurements, collects fabric and delivers the stitched garment.
+Give concise, practical recommendations in under 170 words. Use short "- " bullet lines, no tables and no headings. For an outfit suggestion, cover: garment type, fabric, colour, fit, and one detail worth telling the tailor. Always name one garment from this list so the customer can book it: ${GARMENTS.map(g=>g.name).join(', ')}.
+Service facts (do not invent others): free home visit; pay stitching charge on delivery; starting prices ${GARMENTS.map(g=>g.name+' '+inr(g.price)+' ('+g.days+' days)').join(', ')}; measurements are saved for repeat orders; cancel before fabric collection. If the question is unrelated to clothing or tailoring, politely steer back. Assume Indian occasions, weather and budgets in rupees.`;
+let sampleFn=null;
+async function getSample(){if(sampleFn)return sampleFn;try{if(window.claude&&window.claude.use)sampleFn=(await window.claude.use('sample'))||null}catch(e){sampleFn=null}return sampleFn}
+function fallbackAnswer(t){
+  t=t.toLowerCase();
+  if(/wedding|sangeet|reception|shaadi/.test(t))return "- **Garment:** Sherwani for men, or a Salwar suit for women.\n- **Fabric:** Raw silk or jacquard with a soft lining.\n- **Colour:** Ivory, dusty rose or deep teal photograph well in evening light.\n- **Fit:** Structured shoulders, slightly relaxed body so you can sit and dance.\n- **Tell the tailor:** Ask for contrast piping on the collar and cuffs.";
+  if(/office|work|formal|interview|meeting/.test(t))return "- **Garment:** Shirt with matching Trousers.\n- **Fabric:** Cotton poplin or a cotton-linen blend.\n- **Colour:** Light blue or white shirt, charcoal or navy trousers.\n- **Fit:** Tailored, with enough room at the shoulder to move.\n- **Tell the tailor:** Ask for a semi-spread collar and a trouser hem that just touches the shoe.";
+  if(/diwali|festiv|puja|eid|holi|navratri/.test(t))return "- **Garment:** Kurta set.\n- **Fabric:** Cotton silk or chanderi.\n- **Colour:** Mustard, maroon or bottle green.\n- **Fit:** Straight, knee-length kurta with a churidar.\n- **Tell the tailor:** Ask for a subtle placket embroidery.";
+  if(/summer|hot|heat|linen|casual/.test(t))return "- **Garment:** Shirt.\n- **Fabric:** Pure linen or a light cotton voile.\n- **Colour:** Off-white, sage or sky blue.\n- **Fit:** Relaxed, with side vents.\n- **Tell the tailor:** Ask for a half-lined yoke to keep it airy.";
+  if(/alter|hem|resize|fit|loose|tight/.test(t))return "- **Garment:** Alteration.\n- Your executive can check the fit at the home visit.\n- Hems, tapering and resizing are the quickest jobs, about 2 days.\n- Mention the exact issue in the booking notes.";
+  return "- **Garment:** Kurta set is a safe pick for most occasions.\n- **Fabric:** Cotton silk.\n- **Colour:** A deep neutral such as navy or olive.\n- **Fit:** Straight and comfortable.\n- Tell me the occasion, season and budget for a sharper suggestion.";}
+function md(s){
+  const lines=esc(s).split('\n');let out='',inl=false;
+  for(let l of lines){l=l.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+    if(/^\s*[-*] /.test(l)){if(!inl){out+='<ul>';inl=true}out+='<li>'+l.replace(/^\s*[-*] /,'')+'</li>'}
+    else{if(inl){out+='</ul>';inl=false}if(l.trim())out+='<p>'+l+'</p>'}}
+  return out+(inl?'</ul>':'')}
+function detectGarments(t){return GARMENTS.filter(g=>new RegExp(g.name.split(' ')[0].toLowerCase()).test(t.toLowerCase())).slice(0,2)}
+function renderChat(streaming){
+  const box=$('#msgs');if(!box)return;
+  const intro=`<div class="bub a"><p>Hi, I am the TailorTech style assistant. Tell me the occasion, your budget and how you like your clothes to fit, and I will suggest something you can get stitched.</p></div>`;
+  box.innerHTML=intro+state.chat.map((m,i)=>{
+    if(m.role==='user')return `<div class="bub u">${esc(m.content)}</div>`;
+    if(m.pending&&!m.content)return `<div class="bub a"><span class="typing" aria-label="Thinking"><i></i><i></i><i></i></span></div>`;
+    const acts=(!m.pending)?detectGarments(m.content).map(g=>`<button class="btn sm" data-act="book-from-ai" data-v="${g.id}" data-i="${i}">Book a ${g.name.toLowerCase()}</button>`).join(''):'';
+    return `<div class="bub a">${md(m.content)}${m.fallback?'<div class="note">Showing built-in suggestions because live AI was unavailable.</div>':''}${acts?`<div class="acts">${acts}</div>`:''}</div>`}).join('');
+  box.scrollTop=box.scrollHeight}
+async function ask(text){
+  text=(text||'').trim();if(!text||state.busy)return;
+  state.chat.push({role:'user',content:text});const last={role:'assistant',content:'',pending:true};state.chat.push(last);
+  state.busy=true;$('#sendBtn')&&($('#sendBtn').disabled=true);renderChat();
+  const turns=state.chat.slice(0,-1).filter(m=>!m.fallback||true).map(m=>({role:m.role,content:m.content}));
+  turns[0].content=AI_INSTRUCTIONS+'\n\nCustomer: '+turns[0].content;
+  try{
+    const s=await getSample();if(!s)throw{code:'unavailable'};
+    state.aiCtrl=new AbortController();
+    const r=await s(turns,{cache:false,modelTier:'quick',signal:state.aiCtrl.signal,onText:({text})=>{last.content=text;renderChat(true)}});
+    last.content=r.text||last.content;if(!last.content)throw{code:'empty'};
+  }catch(err){last.content=fallbackAnswer(text);last.fallback=true}
+  last.pending=false;state.busy=false;const b=$('#sendBtn');if(b)b.disabled=false;renderChat()}
+function viewStylist(){
+  const Q=['What should I wear to a cousin\'s wedding in December?','Two work shirts under ₹2,000','Festive kurta for Diwali, slim fit','Something cool for a hot summer'];
+  return `<div class="page"><div class="wrap">
+    <h1>Style assistant</h1><p class="sub">Describe the occasion. Get a garment, fabric and fit you can book straight away.</p>
+    <div class="grid2" style="grid-template-columns:1fr 320px">
+      <div class="card chatbox"><div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="quick">${Q.map(q=>`<button class="chip" data-act="quick" data-v="${esc(q)}">${esc(q)}</button>`).join('')}</div>
+        <div class="compose"><input type="text" id="chatIn" placeholder="e.g. Sangeet outfit, budget ₹6,000" aria-label="Message the style assistant"><button class="btn" id="sendBtn" data-act="send">Send</button></div></div>
+      <aside class="card sticky"><h3 style="margin-bottom:14px">Quick brief</h3>
+        <label class="f">Occasion<select id="s-occ"><option>Wedding</option><option>Office</option><option>Festival</option><option>Party</option><option>Everyday</option></select></label>
+        <label class="f">Who is it for?<select id="s-who"><option>Men</option><option>Women</option><option>Kids</option></select></label>
+        <label class="f">Budget<select id="s-bud"><option>Under ₹2,000</option><option>₹2,000 to ₹6,000</option><option>Above ₹6,000</option></select></label>
+        <button class="btn" data-act="brief" style="width:100%">Suggest outfits</button></aside>
+    </div></div></div>`}
+
+function notFound(){return `<div class="page"><div class="wrap"><div class="empty"><h3>We could not find that page</h3><p class="muted">The order may have been created in another browser.</p><div class="btns"><a class="btn" href="#/dashboard">Go to my orders</a></div></div></div></div>`}
+
+/* ---------- router ---------- */
+function route(){
+  const parts=(location.hash.replace(/^#\/?/,'')||'').split('/');const r=parts[0]||'home';
+  let html,nav=r;
+  switch(r){
+    case 'home':html=viewHome();break;
+    case 'book':html=viewBook();break;
+    case 'confirmed':html=viewConfirmed(parts[1]);nav='book';break;
+    case 'dashboard':html=viewDashboard();break;
+    case 'order':html=viewOrder(parts[1]);nav='dashboard';break;
+    case 'profile':html=viewProfile();break;
+    case 'stylist':html=viewStylist();break;
+    default:html=notFound();
+  }
+  $('#app').innerHTML=html;
+  $$('[data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav&&!a.hasAttribute('data-scroll')));
+  if(r==='home'){buildTape();if(route.pendingScroll){const t=$('#'+route.pendingScroll);route.pendingScroll=null;t&&t.scrollIntoView({behavior:'smooth'})}else window.scrollTo(0,0)}
+  else window.scrollTo(0,0);
+  if(r==='book')updateSummary();
+  if(r==='stylist')renderChat();
+  document.title='TailorTech – '+({home:'Tailoring at your door',book:'Book a visit',confirmed:'Booking confirmed',dashboard:'My orders',order:'Order details',profile:'Profile',stylist:'Style assistant'}[r]||'Not found');
+}
+function buildTape(){const t=$('#tapeNums');if(!t)return;const n=Math.ceil(innerWidth/100)+1;t.innerHTML=Array.from({length:n},(_,i)=>`<span>${i*10}</span>`).join('')}
+window.addEventListener('hashchange',route);
+window.addEventListener('resize',buildTape);
+
+/* ---------- actions ---------- */
+function advance(id){
+  const o=state.orders.find(x=>x.id===id);if(!o||o.cancelled||o.stage>=6)return;
+  o.stage++;o.times[o.stage]=new Date().toISOString();persist();route();toast(STAGES[o.stage].k)}
+function demoOrder(){
+  const n=Date.now(),h=3600000;
+  const o={id:newId(),created:new Date(n-52*h).toISOString(),stage:4,cancelled:false,
+    times:[new Date(n-52*h).toISOString(),new Date(n-30*h).toISOString(),new Date(n-29.5*h).toISOString(),new Date(n-29*h).toISOString(),new Date(n-5*h).toISOString(),null,null],
+    name:state.profile.name||'Aarav Mehta',phone:state.profile.phone||'9876543210',address:'12 Ganga Enclave, Rishikesh 249201',
+    garment:'kurta',date:isoDay(addDays(new Date(),-1)),slot:'11 am–1 pm',fabric:'have',notes:'Slim fit, mandarin collar.',price:1499,eta:isoDay(addDays(new Date(),3))};
+  state.orders.unshift(o);persist();route();toast('Sample order added')}
+document.addEventListener('click',e=>{
+  const s=e.target.closest('[data-scroll]');
+  if(s){const id=s.dataset.scroll,onHome=!location.hash||location.hash==='#/'||location.hash==='#';
+    if(onHome){e.preventDefault();const t=$('#'+id);t&&t.scrollIntoView({behavior:'smooth'})}else{route.pendingScroll=id}return}
+  const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,v=a.dataset.v;
+  switch(act){
+    case 'book-garment':state.draft.garment=v;go('#/book');break;
+    case 'pick-garment':readDraft();state.draft.garment=v;$$('[data-act=pick-garment]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));$('[data-err=garment]').textContent='';updateSummary();break;
+    case 'pick-slot':readDraft();state.draft.slot=v;$$('[data-act=pick-slot]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));$('[data-err=slot]').textContent='';updateSummary();break;
+    case 'submit-booking':submitBooking();break;
+    case 'copy':(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast('Order ID copied'),()=>toast('Copy failed. Select the ID and copy it manually.'));break;
+    case 'tab':state.tab=v;route();break;
+    case 'demo-order':demoOrder();break;
+    case 'advance':advance(v);break;
+    case 'cancel':if(confirm('Cancel this order? This cannot be undone.')){const o=state.orders.find(x=>x.id===v);o.cancelled=true;persist();route();toast('Order cancelled')}break;
+    case 'reorder':{const o=state.orders.find(x=>x.id===v);const [line,rest]=[o.address.split(', ')[0],o.address.split(', ').slice(1).join(', ')];
+      const m=rest.match(/^(.*) (\d{6})$/)||[];Object.assign(state.draft,{garment:o.garment,slot:'',date:'',fabric:o.fabric,notes:o.notes,name:o.name,phone:o.phone,line,city:m[1]||'',pin:m[2]||''});go('#/book');break}
+    case 'save-profile':{const ph=$('#p-phone').value.replace(/[\s\-]|^\+91/g,'');
+      if(ph&&!/^[6-9]\d{9}$/.test(ph)){$('[data-err=p-phone]').textContent='Enter a valid 10-digit mobile number.';return}
+      Object.assign(state.profile,{name:$('#p-name').value.trim(),phone:ph,email:$('#p-email').value.trim()});persist();toast('Profile saved');break}
+    case 'a-label':$$('[data-act=a-label]').forEach(b=>b.setAttribute('aria-pressed',b===a));break;
+    case 'add-addr':{const line=$('#a-line').value.trim(),city=$('#a-city').value.trim(),pin=$('#a-pin').value.trim();
+      if(line.length<5||!city||!/^\d{6}$/.test(pin)){$('[data-err=addr]').textContent='Enter the address, city and a 6-digit pincode.';return}
+      const lab=($('[data-act=a-label][aria-pressed=true]')||{dataset:{v:'Home'}}).dataset.v;
+      state.profile.addresses.push({id:'a'+Date.now(),label:lab,line,city,pin,def:!state.profile.addresses.length});persist();route();toast('Address added');break}
+    case 'del-addr':{const was=state.profile.addresses.splice(+v,1)[0];if(was&&was.def&&state.profile.addresses[0])state.profile.addresses[0].def=true;persist();route();toast('Address removed');break}
+    case 'def-addr':state.profile.addresses.forEach((x,i)=>x.def=i===+v);persist();route();break;
+    case 'quick':ask(v);break;
+    case 'send':{const i=$('#chatIn');const t=i.value;i.value='';ask(t);break}
+    case 'brief':ask(`Occasion: ${$('#s-occ').value}. For: ${$('#s-who').value}. Budget: ${$('#s-bud').value}. Suggest an outfit I can get stitched.`);break;
+    case 'book-from-ai':{const m=state.chat[+a.dataset.i];state.draft.garment=v;
+      state.draft.notes=(m?m.content:'').replace(/\*\*/g,'').replace(/^\s*[-*] /gm,'').replace(/\s+/g,' ').trim().slice(0,300);go('#/book');toast('Suggestion added to your notes');break}
+  }
+});
+document.addEventListener('input',e=>{if(e.target.closest('#bookForm')){readDraft();updateSummary()}});
+document.addEventListener('change',e=>{
+  if(e.target.id==='f-saved'){const a=state.profile.addresses.find(x=>x.id===e.target.value);if(a){$('#f-line').value=a.line;$('#f-city').value=a.city;$('#f-pin').value=a.pin;readDraft()}}
+  if(e.target.closest('#bookForm')){readDraft();updateSummary()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='chatIn'){e.preventDefault();const t=e.target.value;e.target.value='';ask(t)}});
+route();
+</script>
+</body>
+</html>

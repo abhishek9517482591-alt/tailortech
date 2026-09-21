@@ -4,8 +4,8 @@ Tailoring as easy as ordering food. Customers book a home visit, an executive me
 
 This is a customer-facing MVP built for the TailorTech internship assignment.
 
-Live site: https://YOUR-USERNAME.github.io/tailortech/
-Demo video: ADD-LINK-HERE
+Live site:[https://abhishek9517482591-alt.github.io/tailortech/]
+Demo video: [ADD-LINK-](https://drive.google.com/file/d/1shWIHbOx_X87Sv-1izK7WJvW-TS7Qo6j/view?usp=sharing)
 What it does
 Feature	Where
 Landing page, how it works (7 steps), rate card, FAQ	#/
